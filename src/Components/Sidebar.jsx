@@ -1,15 +1,17 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 const Sidebar = () => {
+  const navigate = useNavigate();
   return (
-    <aside className="sidebar">
-      <a href="#" className="nav-link">
+    <div className="sidebar">
+      <a onClick={() => navigate("/")} className="nav-link">
         Public Wall
       </a>
-      <a href="#" className="nav-link">
+      <a onClick={() => navigate("/personal")} className="nav-link">
         Personal Wall
       </a>
-    </aside>
+    </div>
   );
 };
 
