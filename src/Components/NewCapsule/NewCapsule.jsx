@@ -1,9 +1,22 @@
-import React from "react";
+import React, { useState } from "react";
 import "./NewCapsule.css";
-import { useState } from "react";
 
 const CapsuleModal = ({ OnclickHandler }) => {
   const [selectedFiles, setSelectedFiles] = useState([]);
+  const [content, setContent] = useState("");
+  const [time, setTime] = useState("");
+  const [date, setDate] = useState("");
+  const [privacy, setPrivacy] = useState("public");
+
+  const handleSubmit = () => {
+    console.log({
+      content,
+      time,
+      date,
+      privacy,
+      selectedFiles,
+    });
+  };
 
   return (
     <div className="modal-overlay">
@@ -15,7 +28,10 @@ const CapsuleModal = ({ OnclickHandler }) => {
         <h2>Time Capsule</h2>
 
         <label className="input-label">Capsule’s Content</label>
-        <textarea placeholder="Place your thoughts , goals , what do you want to acheive ...etc." />
+        <textarea
+          placeholder="Place your thoughts, goals, what you want to achieve... etc."
+          onChange={(e) => setContent(e.target.value)}
+        />
 
         <div className="attach-line">
           <span>
@@ -43,11 +59,11 @@ const CapsuleModal = ({ OnclickHandler }) => {
                   {file.name}
                   <button
                     className="remove-file-btn"
-                    onClick={() => {
+                    onClick={() =>
                       setSelectedFiles((prev) =>
                         prev.filter((_, i) => i !== index)
-                      );
-                    }}
+                      )
+                    }
                   >
                     ✖
                   </button>
@@ -60,22 +76,54 @@ const CapsuleModal = ({ OnclickHandler }) => {
         <div className="datetime-wrapper">
           <div className="datetime-field">
             <label>Release Time</label>
-            <input type="time" placeholder="HH:MM" />
+            <input
+              type="time"
+              value={time}
+              onChange={(e) => setTime(e.target.value)}
+            />
           </div>
           <div className="datetime-field">
             <label>Release Date</label>
-            <input type="date" placeholder="DD/MM/YYYY" />
+            <input
+              type="date"
+              value={date}
+              onChange={(e) => setDate(e.target.value)}
+            />
           </div>
         </div>
 
         <label className="privacy-label">Privacy</label>
-        <div className="privacy-options">
-          <button>public</button>
-          <button>private</button>
-          <button>unlisted</button>
-        </div>
+        <section className="privacy-options">
+          <section className="privacy-options">
+            <button
+              type="button"
+              className={privacy === "public" ? "active" : ""}
+              onClick={() => setPrivacy("public")}
+            >
+              Public
+            </button>
 
-        <button className="create-btn">Create New Capsule</button>
+            <button
+              type="button"
+              className={privacy === "private" ? "active" : ""}
+              onClick={() => setPrivacy("private")}
+            >
+              Private
+            </button>
+
+            <button
+              type="button"
+              className={privacy === "unlisted" ? "active" : ""}
+              onClick={() => setPrivacy("unlisted")}
+            >
+              Unlisted
+            </button>
+          </section>
+        </section>
+
+        <button className="create-btn" onClick={handleSubmit}>
+          Create New Capsule
+        </button>
       </div>
     </div>
   );

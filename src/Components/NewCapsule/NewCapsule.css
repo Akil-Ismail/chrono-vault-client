@@ -123,30 +123,36 @@ textarea {
   font-weight: 500;
   color: #222;
 }
-
 .privacy-options {
   display: flex;
-  align-items: center;
+  width: 100%;
+  align-items: stretch;
   gap: 0;
   border: 1px solid #ccc;
   border-radius: 30px;
-  padding: 0;
   overflow: hidden;
-  height: fit-content;
+  height: 42px;
   margin-bottom: 1.2rem;
+  background-color: #fff;
 }
+
 .privacy-options button {
   flex: 1;
-  height: 100%;
   border: none;
-  border-radius: 0%;
-  background-color: white;
-  color: black;
-  font-weight: bold;
+  border-radius: 0px;
+  background-color: transparent;
+  color: #222;
+  font-weight: 600;
   font-size: 1rem;
   cursor: pointer;
   margin: 0;
 }
+
+.privacy-options button.active {
+  background-color: #007bff;
+  color: white;
+}
+
 .privacy-options button:hover {
   background-color: #007bff;
   color: white;
