@@ -40,7 +40,7 @@ form {
   height: calc(100vh - 3rem - 3rem);
 }
 
-.login-container {
+.Register-container {
   justify-content: center;
 
   background-color: var(--card-color);
@@ -51,17 +51,9 @@ form {
   width: 100%;
 }
 
-.login-container h2 {
+.Register-container h2 {
   font-size: 1.6rem;
   margin-bottom: 1.2rem;
-  text-align: center;
-}
-
-.agreement {
-  font-size: 0.85rem;
-  margin-bottom: 1.5rem;
-  line-height: 1.4;
-  margin-bottom: 50px;
   text-align: center;
 }
 
@@ -74,7 +66,7 @@ a:hover {
   text-decoration: underline;
 }
 
-.login-form {
+.Register-form {
   display: flex;
   flex-direction: column;
   gap: 30px;
@@ -111,7 +103,7 @@ button:hover {
   background-color: #0056b3;
 }
 
-.signup {
+.login {
   font-size: 0.85rem;
   margin-top: 1.8rem;
   text-align: center;

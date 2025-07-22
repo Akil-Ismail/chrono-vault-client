@@ -1,0 +1,87 @@
+.capsule-card {
+  max-width: 600px;
+  margin: 1.5em auto;
+  border: 3px solid #3498db;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+  background-color: #fff;
+  color: #333;
+  font-family: "Segoe UI", sans-serif;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.capsule-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+}
+
+.capsule-header {
+  padding: 1rem 1.25rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+  color: #fff;
+  border-bottom: 2px solid #2980b9;
+}
+
+.capsule-header h3 {
+  margin: 0;
+  font-size: 1.4rem;
+  font-weight: 700;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+.privacy {
+  background-color: rgba(255, 255, 255, 0.3);
+  padding: 0.3rem 0.7rem;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  backdrop-filter: blur(5px);
+  user-select: none;
+}
+
+.capsule-content {
+  padding: 1rem 1.25rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: #333;
+}
+
+.capsule-message {
+  margin: 1rem 0;
+  white-space: pre-wrap;
+}
+
+.capsule-media {
+  width: 100%;
+  max-height: 320px;
+  object-fit: cover;
+  margin-top: 0.5rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  display: block;
+}
+
+.capsule-tags {
+  margin-top: 1rem;
+  color: #666;
+  font-style: italic;
+  font-size: 0.9rem;
+  border-top: 1px solid #e2e8f0;
+  padding-top: 0.5rem;
+}
+
+/* Responsive tweaks */
+@media (max-width: 600px) {
+  .capsule-card {
+    margin: 1rem;
+    max-width: 100%;
+  }
+
+  .capsule-header h3 {
+    font-size: 1.2rem;
+  }
+}
