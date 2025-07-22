@@ -4,10 +4,8 @@ import AddCapsule from "../../Components/AddCapsule";
 import Sidebar from "../../Components/Sidebar";
 import UserProfile from "../../Components/UserProfile/UserProfile";
 import UserCapsuleCard from "../../Components/UserCard/UserCard";
-import "./Styles.css";
-import { useNavigate } from "react-router-dom";
 
-const Landing = () => {
+const Personal = () => {
   const [showProfile, setShowProfile] = useState(false);
   const [mood, setMood] = useState("");
   const [capsules, setCapsules] = useState([]);
@@ -17,7 +15,7 @@ const Landing = () => {
       try {
         const token = localStorage.getItem("user_token");
         const res = await axios.get(
-          "http://127.0.0.1:8000/api/v0.1/getAllCapsules",
+          "http://127.0.0.1:8000/api/v0.1/getUserCapsules",
           {
             headers: { Authorization: `Bearer ${token}` },
           }
@@ -26,10 +24,6 @@ const Landing = () => {
         const rawCapsules = res.data.payload;
 
         const userCapsules = rawCapsules.map((capsule) => {
-          const video =
-            capsule.attachments?.find((a) =>
-              a.type?.toLowerCase().startsWith("video/")
-            )?.encoded || null;
           const image =
             capsule.attachments?.find((a) =>
               a.type?.toLowerCase().startsWith("image/")
@@ -62,7 +56,7 @@ const Landing = () => {
   }, []);
 
   return (
-    <div className="display">
+    <div>
       <header className="nav-bar">
         <h1>ChronoVault</h1>
         <div className="Filters">
@@ -98,11 +92,7 @@ const Landing = () => {
         <main>
           <div className="PublicCapsules">
             {capsules
-              .filter(
-                (capsule) =>
-                  capsule.privacy === "public" &&
-                  (mood === "" || capsule.mood === mood)
-              )
+              .filter((capsule) => mood === "" || capsule.mood === mood)
               .map((capsule, index) => (
                 <UserCapsuleCard key={index} capsule={capsule} />
               ))}
@@ -115,4 +105,4 @@ const Landing = () => {
   );
 };
 
-export default Landing;
+export default Personal;

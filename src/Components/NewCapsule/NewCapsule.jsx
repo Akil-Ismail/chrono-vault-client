@@ -1,21 +1,73 @@
 import React, { useState } from "react";
 import "./NewCapsule.css";
+import axios from "axios";
 
 const CapsuleModal = ({ OnclickHandler }) => {
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [content, setContent] = useState("");
   const [time, setTime] = useState("");
   const [date, setDate] = useState("");
+  const [mood, setMood] = useState("");
+  const [surprise, setSurprise] = useState(false);
   const [privacy, setPrivacy] = useState("public");
+  const [country, setCountry] = useState("us");
 
-  const handleSubmit = () => {
-    console.log({
-      content,
-      time,
-      date,
-      privacy,
-      selectedFiles,
+  const fileToBase64 = async (file) => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onloadend = () => resolve(reader.result);
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
     });
+  };
+
+  const handleSubmit = async () => {
+    const attachments = [];
+
+    for (let file of selectedFiles) {
+      try {
+        const base64 = await fileToBase64(file);
+        attachments.push(base64);
+      } catch (err) {
+        console.error("Error encoding file:", err);
+      }
+    }
+
+    const formData = new FormData();
+    formData.append("content", content);
+    formData.append("mood", mood);
+    formData.append("release_time", time);
+    formData.append("release_date", date);
+    formData.append("surprise", surprise ? 1 : 0);
+    formData.append("privacy", privacy);
+    formData.append("country", country);
+    attachments.forEach((base64) => {
+      formData.append("attachments[]", base64);
+    });
+
+    const token = localStorage.getItem("user_token");
+    try {
+      const response = await axios.post(
+        "http://127.0.0.1:8000/api/v0.1/createCapsule",
+        formData,
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      if (response.status === 200) {
+        console.log(
+          "Capsule created:",
+          content,
+          time,
+          date,
+          privacy,
+          mood,
+          selectedFiles,
+          surprise
+        );
+        OnclickHandler();
+      }
+    } catch (err) {
+      console.error("Capsule creation failed:", err);
+    }
   };
 
   return (
@@ -30,8 +82,26 @@ const CapsuleModal = ({ OnclickHandler }) => {
         <label className="input-label">Capsule’s Content</label>
         <textarea
           placeholder="Place your thoughts, goals, what you want to achieve... etc."
+          value={content}
           onChange={(e) => setContent(e.target.value)}
         />
+
+        <select
+          id="Mood"
+          className="create-btn"
+          name="Mood"
+          value={mood}
+          onChange={(e) => setMood(e.target.value)}
+        >
+          <option value="">All Moods</option>
+          <option value="Happy">😊 Happy</option>
+          <option value="Sad">😢 Sad</option>
+          <option value="Angry">😠 Angry</option>
+          <option value="Excited">🤩 Excited</option>
+          <option value="Relaxed">😌 Relaxed</option>
+          <option value="Bored">😐 Bored</option>
+          <option value="Anxious">😰 Anxious</option>
+        </select>
 
         <div className="attach-line">
           <span>
@@ -92,33 +162,40 @@ const CapsuleModal = ({ OnclickHandler }) => {
           </div>
         </div>
 
-        <label className="privacy-label">Privacy</label>
+        <label className="privacy-label">Privacy (</label>
+        <label>
+          <input
+            type="checkbox"
+            checked={surprise}
+            onChange={(e) => setSurprise(e.target.checked)}
+          />
+          Surprise Mode )
+        </label>
+
         <section className="privacy-options">
-          <section className="privacy-options">
-            <button
-              type="button"
-              className={privacy === "public" ? "active" : ""}
-              onClick={() => setPrivacy("public")}
-            >
-              Public
-            </button>
+          <button
+            type="button"
+            className={privacy === "public" ? "active" : ""}
+            onClick={() => setPrivacy("public")}
+          >
+            Public
+          </button>
 
-            <button
-              type="button"
-              className={privacy === "private" ? "active" : ""}
-              onClick={() => setPrivacy("private")}
-            >
-              Private
-            </button>
+          <button
+            type="button"
+            className={privacy === "private" ? "active" : ""}
+            onClick={() => setPrivacy("private")}
+          >
+            Private
+          </button>
 
-            <button
-              type="button"
-              className={privacy === "unlisted" ? "active" : ""}
-              onClick={() => setPrivacy("unlisted")}
-            >
-              Unlisted
-            </button>
-          </section>
+          <button
+            type="button"
+            className={privacy === "unlisted" ? "active" : ""}
+            onClick={() => setPrivacy("unlisted")}
+          >
+            Unlisted
+          </button>
         </section>
 
         <button className="create-btn" onClick={handleSubmit}>

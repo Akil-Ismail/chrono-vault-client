@@ -1,3 +1,4 @@
+import axios from "axios";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -7,7 +8,8 @@ const RegisterForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleRegister = () => {
+  const handleRegister = async (e) => {
+    e.preventDefault();
     const formData = new FormData();
     formData.append("name", name);
     formData.append("phone", phone);
@@ -16,6 +18,23 @@ const RegisterForm = () => {
     for (let pair of formData.entries()) {
       console.log(pair[0] + ": " + pair[1]);
     }
+
+    await axios
+      .post("http://127.0.0.1:8000/api/v0.1/guest/register", formData)
+      .then((data) => {
+        if (data.status) {
+          navigate("/");
+          const payload = data.data.payload;
+
+          localStorage.setItem("user_id", payload.id);
+          localStorage.setItem("user_name", payload.name);
+          localStorage.setItem("user_email", payload.email);
+          localStorage.setItem("user_phone", payload.phone);
+          localStorage.setItem("user_token", payload.token);
+        } else {
+          alert(data.error || "Register failed.");
+        }
+      });
   };
   const navigate = useNavigate();
   const redirect = () => {
@@ -23,7 +42,7 @@ const RegisterForm = () => {
   };
 
   return (
-    <main>
+    <form onSubmit={handleRegister}>
       <section className="Register-container">
         <h2>Register</h2>
 
@@ -60,13 +79,13 @@ const RegisterForm = () => {
             required
             onChange={(e) => setPassword(e.target.value)}
           />
-          <button onClick={handleRegister}> Sign Up</button>
+          <button> Sign Up</button>
         </div>
         <p className="login">
           Already have an account? <a onClick={redirect}>Login</a>
         </p>
       </section>
-    </main>
+    </form>
   );
 };
 

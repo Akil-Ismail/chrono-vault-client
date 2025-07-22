@@ -58,7 +58,7 @@ textarea {
 .attach-line {
   font-size: 0.95rem;
   color: #333;
-  margin-bottom: 1rem;
+  margin: 1rem 0;
 }
 
 .attach-link {
@@ -119,7 +119,7 @@ textarea {
 }
 
 .privacy-label {
-  margin-bottom: 0.4rem;
+  margin: 1rem 0;
   font-weight: 500;
   color: #222;
 }
