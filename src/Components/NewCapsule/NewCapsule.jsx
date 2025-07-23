@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import "./NewCapsule.css";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
-const CapsuleModal = ({ OnclickHandler }) => {
+const CapsuleModal = () => {
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [content, setContent] = useState("");
   const [time, setTime] = useState("");
@@ -11,6 +12,8 @@ const CapsuleModal = ({ OnclickHandler }) => {
   const [surprise, setSurprise] = useState(false);
   const [privacy, setPrivacy] = useState("public");
   const [country, setCountry] = useState("us");
+
+  const Navigate = useNavigate();
 
   const fileToBase64 = async (file) => {
     return new Promise((resolve, reject) => {
@@ -63,7 +66,7 @@ const CapsuleModal = ({ OnclickHandler }) => {
           selectedFiles,
           surprise
         );
-        OnclickHandler();
+        Navigate(-1);
       }
     } catch (err) {
       console.error("Capsule creation failed:", err);
@@ -73,7 +76,7 @@ const CapsuleModal = ({ OnclickHandler }) => {
   return (
     <div className="modal-overlay">
       <div className="capsule-modal">
-        <button className="close-btn" onClick={OnclickHandler}>
+        <button className="close-btn" onClick={() => Navigate(-1)}>
           ×
         </button>
 

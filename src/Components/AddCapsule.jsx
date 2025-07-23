@@ -12,9 +12,7 @@ const AddCapsule = () => {
         +
       </button>
 
-      {showAddCapsule && (
-        <NewCapsule OnclickHandler={() => setAddCapsule(!AddCapsule)} />
-      )}
+      {showAddCapsule && <NewCapsule />}
     </div>
   );
 };
